@@ -82,6 +82,18 @@ if(IOS)
   return()
 endif()
 
+# Set debug output suffix. By mit.
+set_property(TARGET mk_api PROPERTY OUTPUT_NAME_DEBUG "mk_api-d")
+
+# Copy mk_api to bin. By mit.
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(
+        TARGET mk_api POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:mk_api>
+            ${CMAKE_SOURCE_DIR}/bin/)
+endif()
+
 if (ENABLE_TESTS)
   add_subdirectory(tests)
 endif()
